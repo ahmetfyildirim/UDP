@@ -14,6 +14,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector> // for vector
+#include <iterator> // for std::istream_iterator and std::ostream_iterator
+#include <algorithm>
 
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
@@ -35,6 +38,20 @@ int main(int argc, char** argv)
     buffman << fin.rdbuf();
     string bufferstr = buffman.str();
     //cout << "\"" << buffman.str() << "\"\n";
+    
+    ifstream file("base.jpeg", ios::binary); //reads in the file
+    // Prepare iterator pairs to iterate the file content!
+    istream_iterator<unsigned char> begin(file), end; //creates an iterator of type unsigned char to read from begin of ile to end
+    vector<unsigned int> buffer(begin, end); //putting the values in a vector called buffer
+    //ofstream output("based.jpeg", ios::binary);
+    //copy(buffer.begin(), buffer.end(), ostream_iterator<unsigned int>(cout <<","));
+    // Printing out byte data of the jpeg
+    /*cout << "JPEG bytes: ";
+    for (int i = 0; i < buffer.size(); i++) {
+        //output << buffer[i];
+        cout << buffer[i] << " ";
+    }
+    cout << "\n";*/
 
     //const char* SendBuf = "pretend im a jpeg hehe xd";//&buffman.str()[0];
     char* SendBuf = new char[bufferstr.size() + 1];
